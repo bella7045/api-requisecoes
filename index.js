@@ -49,7 +49,36 @@ app.post("/nota", (req, res) => {
         status
     });
 });
+app.post("/alistamento", (req, res) => {
+    const { nome, idade, sexo } = req.body;
 
+    if (!nome || !idade || !sexo) {
+        return res.status(400).json({
+            error: "Nome, idade e sexo são obrigatórios"
+        });
+    }
+
+    if (sexo == "m" && idade >=18) {
+        return res.json({
+            nome,
+            mensagem: "alistamento concluido com sucesso"
+        });
+    }
+
+    if (idade < 18 && sexo == "m") {
+        return res.json({
+            nome,
+            mensagem: "o exercito te aguarda"
+        });
+    }
+
+    if (idade > 18 && sexo == "f") {
+        return res.json({
+            nome,
+            mensagem: "busque um curso preparatorio"
+        });
+    }
+});
 app.listen(port, () => {
     console.log(`Servidor rodando em http://localhost:${port}`);
 });
