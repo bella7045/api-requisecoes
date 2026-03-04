@@ -15,23 +15,38 @@ app.get('/saudacao', (req, res) => {
     res.json({ message: `Olá, ${nome}` });
 });
 
-
 app.post("/imc", (req, res) => {
-    const { nome, idade, altura, peso } = req.body
+    const { nome, idade, altura, peso } = req.body;
 
     if (!nome || !idade || !altura || !peso) {
-        return res.status(400).json(
-            {
-                error: 'os dados estão incompletos'
-            });
+        return res.status(400).json({
+            error: 'Os dados estão incompletos'
+        });
     }
+
     const imc = peso / (altura * altura);
-res.json({
-    nome,
-    imc: imc.toFixed(2)
-})
 
+    res.json({
+        nome,
+        imc: imc.toFixed(2)
+    });
+});
+app.post("/nota", (req, res) => {
+    const { nome, nota } = req.body;
 
+    if (!nome || nota === undefined) {
+        return res.status(400).json({
+            error: "Nome e nota são obrigatórios"
+        });
+    }
+
+    const status = nota >= 7 ? "Aprovado" : "Reprovado";
+
+    res.json({
+        nome,
+        nota,
+        status
+    });
 });
 
 app.listen(port, () => {
