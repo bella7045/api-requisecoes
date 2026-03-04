@@ -32,19 +32,20 @@ app.post("/imc", (req, res) => {
     });
 });
 app.post("/nota", (req, res) => {
-    const { nome, nota } = req.body;
+    const { nome, nota1,nota2 } = req.body;
 
-    if (!nome || nota === undefined) {
+    if (!nome || !nota1 || !nota2) {
         return res.status(400).json({
-            error: "Nome e nota são obrigatórios"
+            error: "Nome e notas são obrigatórios"
         });
     }
 
-    const status = nota >= 7 ? "Aprovado" : "Reprovado";
+    const status = (nota1 + nota2) / 2 >= 7 ? "Aprovado" : "Reprovado";
 
     res.json({
         nome,
-        nota,
+        nota1,
+        nota2,
         status
     });
 });
